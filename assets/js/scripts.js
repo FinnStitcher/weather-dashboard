@@ -1,4 +1,15 @@
 var appId = "39a500d5662d1686e6e49030185b149b";
+var emojis = {
+    "01": "☀️",
+    "02": "🌤️",
+    "03": "⛅",
+    "04": "☁️",
+    "09": "🌧️",
+    "10": "🌧️",
+    "11": "🌩️",
+    "13": "❄️",
+    "50": "🌫️",
+};
 
 var formEl = $("#search-form");
 var city = null;
@@ -39,15 +50,20 @@ var getWeather = function(url) {
         return response.json()
     })
     .then((data) => {
+        console.log(data.current);
         displayCurrentWeather(data.current);
         displayForecast(data.daily)
     });
 };
 
 var displayCurrentWeather = function(currentData) {
-    // change city name
-    // referring to the global variable, here
-    $("#city-name").text(city);
+    // change header
+    var currentDate = moment().format("MM/DD/YYYY");
+    var weatherIconCode = currentData.weather[0].icon.slice(0, 2);
+
+    $("#current-header").text(`
+        ${city} (${currentDate}) ${emojis[weatherIconCode]}
+    `);
 
     // change text
     $("#curTemp").text(`Temp.: ${currentData.temp}° F`);

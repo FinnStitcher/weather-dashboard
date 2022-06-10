@@ -66,6 +66,10 @@ h4 {
     font-size: 18px;
 }
 
+.sentence-case {
+    text-transform: capitalize;
+}
+
 .uv-index {
     border-radius: 0.25rem;
     padding: 0.25rem 1rem;
