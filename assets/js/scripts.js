@@ -39,16 +39,34 @@ var getWeather = function(url) {
         return response.json()
     })
     .then((data) => {
-        console.log("data is", data);
         displayCurrentWeather(city, data);
     });
 };
 
 var displayCurrentWeather = function(city, data) {
+    // change city name
     $("#city-name").text(city);
 
+    // change text
     $("#curTemp").text(`Temp.: ${data.current.temp}° F`);
     $("#curWind").text(`Wind: ${data.current.wind_speed} mph`);
     $("#curHumidity").text(`Humidity: ${data.current.humidity}%`);
-    $("#curUv").html(`UV Index: <span class="uv-index uv-low">${data.current.uvi}</span>`)
+
+    // change uv
+    var uvNum = data.current.uvi;
+    var uvSpanEl = $("<span>").addClass("uv-index").text(uvNum);
+    if (uvNum <= 2) {
+        uvSpanEl.addClass("uv-low")
+    } else if (uvNum <= 5) {
+        uvSpanEl.addClass("uv-med")
+    } else if (uvNum <= 7) {
+        uvSpanEl.addClass("uv-high")
+    } else if (uvNum <= 10) {
+        uvSpanEl.addClass("uv-v-high")
+    } else {
+        uvSpanEl.addClass("uv-extreme")
+    };
+
+    $("#curUV span").remove();
+    $("#curUV").append(uvSpanEl);
 };
