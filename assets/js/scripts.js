@@ -39,21 +39,23 @@ var getWeather = function(url) {
         return response.json()
     })
     .then((data) => {
-        displayCurrentWeather(city, data);
+        displayCurrentWeather(data.current);
+        displayForecast(data.daily)
     });
 };
 
-var displayCurrentWeather = function(city, data) {
+var displayCurrentWeather = function(currentData) {
     // change city name
+    // referring to the global variable, here
     $("#city-name").text(city);
 
     // change text
-    $("#curTemp").text(`Temp.: ${data.current.temp}° F`);
-    $("#curWind").text(`Wind: ${data.current.wind_speed} mph`);
-    $("#curHumidity").text(`Humidity: ${data.current.humidity}%`);
+    $("#curTemp").text(`Temp.: ${currentData.temp}° F`);
+    $("#curWind").text(`Wind: ${currentData.wind_speed} mph`);
+    $("#curHumidity").text(`Humidity: ${currentData.humidity}%`);
 
     // change uv
-    var uvNum = data.current.uvi;
+    var uvNum = currentData.uvi;
     var uvSpanEl = $("<span>").addClass("uv-index").text(uvNum);
     if (uvNum <= 2) {
         uvSpanEl.addClass("uv-low")
@@ -69,4 +71,21 @@ var displayCurrentWeather = function(city, data) {
 
     $("#curUV span").remove();
     $("#curUV").append(uvSpanEl);
+};
+
+var displayForecast = function(futureData) {
+    var forecast = futureData.slice(0, 5);
+    var forecastRowEl = $("#forecast-row");
+
+    for (var i = 0; i < forecast.length; i++){
+        var dayDivEl = $("<div>").addClass("forecast col-12 col-sm");
+
+        dayDivEl.append("<h3>day</h3>");
+        dayDivEl.append("<p>weather</p>");
+        dayDivEl.append(`<p>Temp.: ${forecast[i].temp.day}° F</p>`);
+        dayDivEl.append(`<p>Wind: ${forecast[i].wind_speed} mph`);
+        dayDivEl.append(`<p>Humidity: ${forecast[i].humidity}%`);
+
+        forecastRowEl.append(dayDivEl);
+    };
 };
