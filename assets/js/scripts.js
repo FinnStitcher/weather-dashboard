@@ -50,7 +50,6 @@ var getWeather = function(url) {
         return response.json()
     })
     .then((data) => {
-        console.log(data.current);
         displayCurrentWeather(data.current);
         displayForecast(data.daily)
     });
@@ -58,11 +57,11 @@ var getWeather = function(url) {
 
 var displayCurrentWeather = function(currentData) {
     // change header
-    var currentDate = moment().format("MM/DD/YYYY");
+    var today = moment().format("MM/DD/YYYY");
     var weatherIconCode = currentData.weather[0].icon.slice(0, 2);
 
     $("#current-header").text(`
-        ${city} (${currentDate}) ${emojis[weatherIconCode]}
+        ${city} (${today}) ${emojis[weatherIconCode]}
     `);
 
     // change text
@@ -94,10 +93,18 @@ var displayForecast = function(futureData) {
     var forecastRowEl = $("#forecast-row");
 
     for (var i = 0; i < forecast.length; i++){
+        // create formatted date
+        var date = moment().add(i + 1, 'days').format("MM/DD/YYYY");
+
+        // get weather icon code
+        var weatherIconCode = forecast[i].weather[0].icon.slice(0, 2);
+
+        // create div for the content
         var dayDivEl = $("<div>").addClass("forecast col-12 col-sm");
 
-        dayDivEl.append("<h3>day</h3>");
-        dayDivEl.append("<p>weather</p>");
+        // creating the tags inside the append() for simplicity
+        dayDivEl.append(`<h4>${date}</h4>`);
+        dayDivEl.append(`<p>${emojis[weatherIconCode]}</p>`);
         dayDivEl.append(`<p>Temp.: ${forecast[i].temp.day}° F</p>`);
         dayDivEl.append(`<p>Wind: ${forecast[i].wind_speed} mph`);
         dayDivEl.append(`<p>Humidity: ${forecast[i].humidity}%`);
