@@ -1,9 +1,20 @@
 var appId = "39a500d5662d1686e6e49030185b149b";
 
+var formEl = $("#search-form");
+var city = null;
+
+$("#search-form").on("submit", function(event) {
+    event.preventDefault();
+
+    var searchValue = $("#search-input").val();
+    createGeoLink(searchValue);
+    city = searchValue;
+});
+
 var createGeoLink = function(input) {
     var city = input.replace(" ", "-").toLowerCase();
     var geoEndpoint = `http://api.openweathermap.org/geo/1.0/direct?q=${city},US&appid=${appId}`;
-    
+
     getCoordinates(geoEndpoint);
 };
 
@@ -29,7 +40,15 @@ var getWeather = function(url) {
     })
     .then((data) => {
         console.log("data is", data);
+        displayCurrentWeather(city, data);
     });
-}
+};
 
-createGeoLink("Las Vegas");
+var displayCurrentWeather = function(city, data) {
+    $("#city-name").text(city);
+
+    $("#curTemp").text(`Temp.: ${data.current.temp}° F`);
+    $("#curWind").text(`Wind: ${data.current.wind_speed} mph`);
+    $("#curHumidity").text(`Humidity: ${data.current.humidity}%`);
+    $("#curUv").html(`UV Index: <span class="uv-index uv-low">${data.current.uvi}</span>`)
+};
