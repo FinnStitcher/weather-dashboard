@@ -102,7 +102,7 @@ var displayCurrentWeather = function(currentData) {
     `);
 
     // change text
-    $("#curTemp").text(`Temp.: ${currentData.temp}° F`);
+    $("#curTemp").text(`Temp: ${currentData.temp}° F`);
     $("#curWind").text(`Wind: ${currentData.wind_speed} mph`);
     $("#curHumidity").text(`Humidity: ${currentData.humidity}%`);
 
@@ -145,7 +145,7 @@ var displayForecast = function(futureData) {
         // creating the tags inside the append() for simplicity
         dayDivEl.append(`<h4>${date}</h4>`);
         dayDivEl.append(`<p class="big-icon">${emojis[weatherIconCode]}</p>`);
-        dayDivEl.append(`<p>Temp.: ${forecast[i].temp.day}° F</p>`);
+        dayDivEl.append(`<p>Temp: ${forecast[i].temp.day}° F</p>`);
         dayDivEl.append(`<p>Wind: ${forecast[i].wind_speed} mph`);
         dayDivEl.append(`<p>Humidity: ${forecast[i].humidity}%`);
 
