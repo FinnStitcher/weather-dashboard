@@ -33,10 +33,12 @@ aside *, aside * * {
     border-radius: 0.25rem;
     padding: 0.5rem;
     text-align: center;
+    text-transform: capitalize;
 }
 
 .history-btn:hover {
     color: white;
+    transition: color 0.15s ease-in-out;
 }
 
 .history-btn:active {

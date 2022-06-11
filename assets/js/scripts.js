@@ -1,4 +1,6 @@
 var appId = "39a500d5662d1686e6e49030185b149b";
+
+// this stuff needs to be accessed in multiple functions
 var emojis = {
     "01": "☀️",
     "02": "🌤️",
@@ -12,6 +14,7 @@ var emojis = {
 };
 var searchHistory = null;
 var city = null;
+var state = null;
 
 $("#search-form").on("submit", function(event) {
     event.preventDefault();
@@ -48,6 +51,7 @@ var getCoordinates = function(url) {
         return response.json();
     })
     .then((data) => {
+        state = data[0].state;
         var latitude = data[0].lat;
         var longitude = data[0].lon;
 
@@ -89,7 +93,7 @@ var displayCurrentWeather = function(currentData) {
     var weatherIconCode = currentData.weather[0].icon.slice(0, 2);
 
     $("#current-header").text(`
-        ${city} (${today}) ${emojis[weatherIconCode]}
+        ${city}, ${state} (${today}) ${emojis[weatherIconCode]}
     `);
 
     // change text
