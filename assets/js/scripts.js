@@ -24,6 +24,11 @@ $("#search-form").on("submit", function(event) {
     searchHistory.unshift(searchValue);
     city = searchValue;
 
+    if (!searchValue) {
+        alert("Please enter the name of a city.");
+        return false;
+    };
+
     createGeoLink(searchValue);
 
     localStorage.setItem("weatherdashboard", JSON.stringify(searchHistory));
@@ -139,7 +144,7 @@ var displayForecast = function(futureData) {
 
         // creating the tags inside the append() for simplicity
         dayDivEl.append(`<h4>${date}</h4>`);
-        dayDivEl.append(`<p>${emojis[weatherIconCode]}</p>`);
+        dayDivEl.append(`<p class="big-icon">${emojis[weatherIconCode]}</p>`);
         dayDivEl.append(`<p>Temp.: ${forecast[i].temp.day}° F</p>`);
         dayDivEl.append(`<p>Wind: ${forecast[i].wind_speed} mph`);
         dayDivEl.append(`<p>Humidity: ${forecast[i].humidity}%`);
