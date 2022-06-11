@@ -16,12 +16,12 @@ var city = null;
 $("#search-form").on("submit", function(event) {
     event.preventDefault();
 
+    // store searchValue in global variables so it can be accessed elsewhere
     var searchValue = $("#search-input").val();
     searchHistory.unshift(searchValue);
     city = searchValue;
 
     createGeoLink(searchValue);
-    displaySearch();
 
     localStorage.setItem("weatherdashboard", JSON.stringify(searchHistory));
 
@@ -53,7 +53,11 @@ var getCoordinates = function(url) {
 
         var weatherEndpoint = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&units=imperial&appid=${appId}`;
 
+        // displaySearch() is here because this code only runs if the input was valid
+        // this way bad searches dont end up in the DOM
+        // also avoids good searches being cut out of the history due to a bad one
         getWeather(weatherEndpoint);
+        displaySearch();
     })
     .catch((error) => {
         var errorMessage = error.message;
@@ -62,6 +66,9 @@ var getCoordinates = function(url) {
         } else {
             alert("No data could be found. Either the city you looked up has no data, does not exist, or is not in the United States.");
         };
+        // remove bad value from global variables
+        searchHistory.shift();
+        city = null;
     });
 };
 
