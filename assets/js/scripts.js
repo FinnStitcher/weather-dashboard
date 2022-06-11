@@ -92,6 +92,9 @@ var displayForecast = function(futureData) {
     var forecast = futureData.slice(0, 5);
     var forecastRowEl = $("#forecast-row");
 
+    // remove old data
+    forecastRowEl.children().remove();
+
     for (var i = 0; i < forecast.length; i++){
         // create formatted date
         var date = moment().add(i + 1, 'days').format("MM/DD/YYYY");
