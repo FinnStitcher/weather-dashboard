@@ -54,6 +54,14 @@ var getCoordinates = function(url) {
         var weatherEndpoint = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&units=imperial&appid=${appId}`;
 
         getWeather(weatherEndpoint);
+    })
+    .catch((error) => {
+        var errorMessage = error.message;
+        if (errorMessage.indexOf("NetworkError") !== -1) {
+            alert("There was a network error and your request could not be fulfilled. Try again later.");
+        } else {
+            alert("No data could be found. Either the city you looked up has no data, does not exist, or is not in the United States.");
+        };
     });
 };
 
