@@ -21,9 +21,9 @@ $("#search-form").on("submit", function(event) {
     city = searchValue;
 
     createGeoLink(searchValue);
+    displaySearch();
 
     localStorage.setItem("weatherdashboard", JSON.stringify(searchHistory));
-    loadHistory();
 
     $("#search-input").val("");
 });
@@ -124,10 +124,17 @@ var displayForecast = function(futureData) {
 
 var displaySearch = function(searchText) {
     var searchListEl = $("#search-history");
+    $("#search-history a").remove();
 
-    var listEl = $("<a>").text(searchText);
-    // append works rather than prepend because the list is already in reverse chrono order
-    searchListEl.append(listEl);
+    if (searchHistory.length > 5) {
+        searchHistory.pop();
+    };
+
+    for (var i = 0; i < searchHistory.length; i++) {
+        var listEl = $("<a>").text(searchHistory[i]);
+        // append works rather than prepend because the list is already in reverse chrono order
+        searchListEl.append(listEl);        
+    };
 };
 
 var loadHistory = function() {
@@ -135,9 +142,7 @@ var loadHistory = function() {
 
     if (storedSearchHistory) {
         searchHistory = JSON.parse(storedSearchHistory);
-        for (var i = 0; i < searchHistory.length; i++) {
-            displaySearch(searchHistory[i]);
-        };
+        displaySearch();
     } else {
         searchHistory = [];
     };
