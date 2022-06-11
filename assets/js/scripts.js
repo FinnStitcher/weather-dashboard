@@ -149,7 +149,9 @@ var loadHistory = function() {
 
     if (storedSearchHistory) {
         searchHistory = JSON.parse(storedSearchHistory);
+        city = searchHistory[0];
         displaySearch();
+        createGeoLink(searchHistory[0]);
     } else {
         searchHistory = [];
     };
