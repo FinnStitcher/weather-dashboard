@@ -10,16 +10,22 @@ var emojis = {
     "13": "❄️",
     "50": "🌫️",
 };
-
-var formEl = $("#search-form");
+var searchHistory = null;
 var city = null;
 
 $("#search-form").on("submit", function(event) {
     event.preventDefault();
 
     var searchValue = $("#search-input").val();
-    createGeoLink(searchValue);
+    searchHistory.unshift(searchValue);
     city = searchValue;
+
+    createGeoLink(searchValue);
+
+    localStorage.setItem("weatherdashboard", JSON.stringify(searchHistory));
+    loadHistory();
+
+    $("#search-input").val("");
 });
 
 var createGeoLink = function(input) {
@@ -115,3 +121,26 @@ var displayForecast = function(futureData) {
         forecastRowEl.append(dayDivEl);
     };
 };
+
+var displaySearch = function(searchText) {
+    var searchListEl = $("#search-history");
+
+    var listEl = $("<a>").text(searchText);
+    // append works rather than prepend because the list is already in reverse chrono order
+    searchListEl.append(listEl);
+};
+
+var loadHistory = function() {
+    var storedSearchHistory = localStorage.getItem("weatherdashboard");
+
+    if (storedSearchHistory) {
+        searchHistory = JSON.parse(storedSearchHistory);
+        for (var i = 0; i < searchHistory.length; i++) {
+            displaySearch(searchHistory[i]);
+        };
+    } else {
+        searchHistory = [];
+    };
+};
+
+loadHistory();
