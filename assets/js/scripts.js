@@ -28,9 +28,16 @@ $("#search-form").on("submit", function(event) {
     $("#search-input").val("");
 });
 
-var createGeoLink = function(input) {
-    var city = input.replace(" ", "-").toLowerCase();
-    var geoEndpoint = `http://api.openweathermap.org/geo/1.0/direct?q=${city},US&appid=${appId}`;
+$("#search-history").on("click", "button", function(event) {
+    var searchValue = $(this).text();
+    city = searchValue;
+
+    createGeoLink(searchValue);
+});
+
+var createGeoLink = function(searchedCity) {
+    searchedCity = searchedCity.replace(" ", "-").toLowerCase();
+    var geoEndpoint = `http://api.openweathermap.org/geo/1.0/direct?q=${searchedCity},US&appid=${appId}`;
 
     getCoordinates(geoEndpoint);
 };
@@ -124,14 +131,14 @@ var displayForecast = function(futureData) {
 
 var displaySearch = function(searchText) {
     var searchListEl = $("#search-history");
-    $("#search-history a").remove();
+    $(".history-btn").remove();
 
     if (searchHistory.length > 5) {
         searchHistory.pop();
     };
 
     for (var i = 0; i < searchHistory.length; i++) {
-        var listEl = $("<a>").text(searchHistory[i]);
+        var listEl = $("<button>").addClass("history-btn").text(searchHistory[i]);
         // append works rather than prepend because the list is already in reverse chrono order
         searchListEl.append(listEl);        
     };

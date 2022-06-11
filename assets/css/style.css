@@ -19,17 +19,28 @@ aside *, aside * * {
     color: #D9E9E8;
 }
 
-.link-list {
+.btn-list {
     padding: 0;
     list-style: none;
 }
 
-.link-list a {
+.history-btn {
+    appearance: none;
     display: block;
+    width: 100%;
     background: #AEAEAE;
+    border: 0;
     border-radius: 0.25rem;
     padding: 0.5rem;
     text-align: center;
+}
+
+.history-btn:hover {
+    color: white;
+}
+
+.history-btn:active {
+    background: #757575;
 }
 
 .current-weather {
