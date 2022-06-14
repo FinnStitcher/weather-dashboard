@@ -1,6 +1,6 @@
 # Weather Dashboard
 
-A simple, streamlined weather app. Look up any city in the United Staes, and Weather Dashboard will tell you what the weather's like today, and predictions for the next five days, with data from Open Weather Map. It also records your five most recent searches and stores them locally, so you can easily travel destinations.
+A simple, streamlined weather app. Look up any city in the United States, and Weather Dashboard will tell you what the weather's like today, and predictions for the next five days, with data from Open Weather Map. It also records your five most recent searches and stores them locally, so you can easily travel destinations.
 
 # Technologies
 
