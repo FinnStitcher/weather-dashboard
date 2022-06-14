@@ -179,6 +179,8 @@ var loadHistory = function() {
     } else {
         searchHistory = [];
     };
+
+    createGeoLink("new york");
 };
 
 loadHistory();
