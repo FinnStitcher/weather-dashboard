@@ -164,7 +164,7 @@ var displaySearch = function(searchText) {
     for (var i = 0; i < searchHistory.length; i++) {
         var listEl = $("<button>").addClass("history-btn").text(searchHistory[i]);
         // append works rather than prepend because the list is already in reverse chrono order
-        searchListEl.append(listEl);        
+        searchListEl.append(listEl);
     };
 };
 
@@ -179,7 +179,8 @@ var loadHistory = function() {
     } else {
         searchHistory = [];
     };
-
+    
+    city = "New York";
     createGeoLink("new york");
 };
 
