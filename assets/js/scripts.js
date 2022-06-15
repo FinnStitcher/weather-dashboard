@@ -1,4 +1,4 @@
-console.log(API_KEY);
+var appId = "39a500d5662d1686e6e49030185b149b";
 
 // this stuff needs to be accessed in multiple functions
 var emojis = {
