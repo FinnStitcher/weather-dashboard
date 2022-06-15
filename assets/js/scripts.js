@@ -13,8 +13,6 @@ var emojis = {
     "50": "🌫️",
 };
 var searchHistory = null;
-var city = null;
-var state = null;
 
 $("#search-form").on("submit", function(event) {
     event.preventDefault();
@@ -22,7 +20,6 @@ $("#search-form").on("submit", function(event) {
     // store searchValue in global variables so it can be accessed elsewhere
     var searchValue = $("#search-input").val();
     searchHistory.unshift(searchValue);
-    city = searchValue;
 
     if (!searchValue) {
         alert("Please enter the name of a city.");
@@ -43,29 +40,33 @@ $("#search-history").on("click", "button", function(event) {
     createGeoLink(searchValue);
 });
 
-var createGeoLink = function(searchedCity) {
-    searchedCity = searchedCity.replace(" ", "-").toLowerCase();
-    var geoEndpoint = `http://api.openweathermap.org/geo/1.0/direct?q=${searchedCity},US&appid=${appId}`;
+var createGeoLink = function(searchValue) {
+    searchValue = searchValue.replace(" ", "-").toLowerCase();
+    var geoEndpoint = `http://api.openweathermap.org/geo/1.0/direct?q=${searchValue},US&appid=${appId}`;
 
-    getCoordinates(geoEndpoint);
+    getCoordinates(geoEndpoint, searchValue);
 };
 
+// this function returns an array containing both the city and state names
 var getCoordinates = function(url) {
     fetch(url)
     .then((response) => {
         return response.json();
     })
     .then((data) => {
-        state = data[0].state;
         var latitude = data[0].lat;
         var longitude = data[0].lon;
+        var namesObj = {
+            city: data[0].name,
+            state: data[0].state
+        };
 
         var weatherEndpoint = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&units=imperial&appid=${appId}`;
 
         // displaySearch() is here because this code only runs if the input was valid
         // this way bad searches dont end up in the DOM
         // also avoids good searches being cut out of the history due to a bad one
-        getWeather(weatherEndpoint);
+        getWeather(weatherEndpoint, namesObj);
         displaySearch();
     })
     .catch((error) => {
@@ -77,28 +78,27 @@ var getCoordinates = function(url) {
         };
         // remove bad value from global variables
         searchHistory.shift();
-        city = null;
     });
 };
 
-var getWeather = function(url) {
+var getWeather = function(url, namesObj) {
     fetch(url)
     .then((response) => {
         return response.json()
     })
     .then((data) => {
-        displayCurrentWeather(data.current);
+        displayCurrentWeather(data.current, namesObj);
         displayForecast(data.daily)
     });
 };
 
-var displayCurrentWeather = function(currentData) {
+var displayCurrentWeather = function(currentData, namesObj) {
     // change header
     var today = moment().format("MM/DD/YYYY");
     var weatherIconCode = currentData.weather[0].icon.slice(0, 2);
 
     $("#current-header").text(`
-        ${city}, ${state} (${today}) ${emojis[weatherIconCode]}
+        ${namesObj.city}, ${namesObj.state} (${today}) ${emojis[weatherIconCode]}
     `);
 
     // change text
