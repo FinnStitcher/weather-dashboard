@@ -2,10 +2,6 @@ name: env_tutorial
 on: [pull_request, push]
 ## Code runs whenever a pull request or a push is made
 
-env:
-  API_KEY: 39a500d5662d1686e6e49030185b149b
-## Putting the key in an environmental variable
-
 jobs:
   job1:
     runs-on: ubuntu-latest
@@ -13,5 +9,5 @@ jobs:
     ## not really sure what to put given i'm on windows so i'll leave it that way
     steps:
       - name: step 1
-        run: echo "The API key is:$API_KEY"
+        run: echo "The API key is:${{secrets.API_KEY}}"
         ## I THINK this is akin to console.log() but fuck if i know
