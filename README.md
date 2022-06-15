@@ -9,3 +9,5 @@ jQuery, Moment.js, and OpenWeather's One Call and Geocoding APIs.
 # How to Use
 
 Weather Dashboard is available live at https://finnstitcher.github.io/weather-dashboard/.
+
+![image](https://user-images.githubusercontent.com/104468624/173934368-cfeb91cd-e126-4b44-8fd3-8398ddc17c0b.png)
