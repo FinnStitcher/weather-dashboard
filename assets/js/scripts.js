@@ -42,7 +42,7 @@ $("#search-history").on("click", "button", function(event) {
 
 var createGeoLink = function(searchValue) {
     searchValue = searchValue.replace(" ", "-").toLowerCase();
-    var geoEndpoint = `http://api.openweathermap.org/geo/1.0/direct?q=${searchValue},US&appid=${appId}`;
+    var geoEndpoint = `https://api.openweathermap.org/geo/1.0/direct?q=${searchValue},US&appid=${appId}`;
 
     getCoordinates(geoEndpoint, searchValue);
 };
